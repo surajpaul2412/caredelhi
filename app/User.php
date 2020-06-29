@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role_id', 'phone_number'
     ];
 
     /**
@@ -36,4 +36,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Relationship between users and roles table.
+     *
+     * @return \App\Models\Role
+     */
+    public function role() {
+        return $this->belongsTo('App\Models\Role');
+    }
+
+    /**
+     * Find out if the user has given role or not.
+     *
+     * @param  array $role
+     * @return boolean
+     */
+    public function hasRole($role) {
+        if(in_array($this->role->label, $role))
+            return true;
+        else
+            return false;
+    }
 }
